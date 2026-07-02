@@ -26,9 +26,6 @@
                 "ast"
               ]
             }
-          },
-          "metadata": {
-            "useLiteralContent": false
           }
         }
       },
@@ -68,9 +65,6 @@
                 "ast"
               ]
             }
-          },
-          "metadata": {
-            "useLiteralContent": false
           }
         }
       },
@@ -109,9 +103,6 @@
                 "ast"
               ]
             }
-          },
-          "metadata": {
-            "useLiteralContent": false
           }
         }
       },
@@ -153,9 +144,6 @@
                 "ast"
               ]
             }
-          },
-          "metadata": {
-            "useLiteralContent": false
           }
         }
       },
@@ -192,9 +180,6 @@
                 "ast"
               ]
             }
-          },
-          "metadata": {
-            "useLiteralContent": false
           }
         }
       },
@@ -231,9 +216,6 @@
                 "ast"
               ]
             }
-          },
-          "metadata": {
-            "useLiteralContent": false
           }
         }
       },
@@ -272,9 +254,6 @@
                 "ast"
               ]
             }
-          },
-          "metadata": {
-            "useLiteralContent": false
           }
         }
       },
@@ -289,8 +268,8 @@
       ]
     },
     "D:\\Studies\\code_with_me\\Blockchain project\\contracts\\MicrogridRegistry.sol": {
-      "lastModificationDate": 1782890167082,
-      "contentHash": "192e1bcc2a87d5547a73cf423b4ffcfd",
+      "lastModificationDate": 1783000562593,
+      "contentHash": "356f2e9563701affc6116ba7f802e034",
       "sourceName": "contracts/MicrogridRegistry.sol",
       "solcConfig": {
         "version": "0.8.28",
@@ -313,9 +292,6 @@
                 "ast"
               ]
             }
-          },
-          "metadata": {
-            "useLiteralContent": false
           }
         }
       },
@@ -354,9 +330,6 @@
                 "ast"
               ]
             }
-          },
-          "metadata": {
-            "useLiteralContent": false
           }
         }
       },
@@ -393,9 +366,6 @@
                 "ast"
               ]
             }
-          },
-          "metadata": {
-            "useLiteralContent": false
           }
         }
       },
@@ -436,9 +406,6 @@
                 "ast"
               ]
             }
-          },
-          "metadata": {
-            "useLiteralContent": false
           }
         }
       },
@@ -475,9 +442,6 @@
                 "ast"
               ]
             }
-          },
-          "metadata": {
-            "useLiteralContent": false
           }
         }
       },
