@@ -13,20 +13,21 @@ function Dashboard() {
     const [refresh, setRefresh] = useState(0);
 
     return (
-        <div className="p-5 bg-slate-900">
+        <div className="px-5 bg-slate-900">
             <Layout>
-                <DashboardHeader />
-                <DashboardCards />
+                <div className="ml-64 mt-20">
+                    <DashboardHeader />
+                    <DashboardCards />
 
-                <div className="grid grid-cols-2 gap-6">
-                    <MyMicrogrid refresh={refresh} />
-                    <RegisterMicrogrid onSuccess={() => setRefresh(prev => prev + 1)} />
+                    <div className="grid grid-cols-2 gap-6">
+                        <MyMicrogrid refresh={refresh} />
+                        <RegisterMicrogrid onSuccess={() => setRefresh(prev => prev + 1)} />
+                    </div>
+
+                    <div className="mt-6">
+                        <UpdateStatus onSuccess={() => setRefresh(prev => prev + 1)} />
+                    </div>
                 </div>
-
-                <div className="mt-6">
-                    <UpdateStatus onSuccess={() => setRefresh(prev => prev + 1)} />
-                </div>
-
             </Layout>
         </div>
     );

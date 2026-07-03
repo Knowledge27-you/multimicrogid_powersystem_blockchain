@@ -851,6 +851,19 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                     200,
                     8
                 );
+
+                await registry.connect(buyer1).registerMicrogrid(
+                    "Buyer Grid",
+                    22345679,
+                    88234568,
+                    1000
+                );
+
+                await registry.connect(buyer1).updateStatus(
+                    0,
+                    0,
+                    80
+                );
                 // Buyer approves Marketplace
                 await energyToken.connect(buyer1).approve(
                     marketplace.address,
@@ -885,6 +898,19 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                     0,
                     200,
                     8
+                );
+
+                await registry.connect(buyer1).registerMicrogrid(
+                    "Buyer Grid",
+                    22345679,
+                    88234568,
+                    1000
+                );
+
+                await registry.connect(buyer1).updateStatus(
+                    0,
+                    0,
+                    80
                 );
                 // Buyer approves Marketplace
                 await energyToken.connect(buyer1).approve(
@@ -922,6 +948,19 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                     0,
                     200,
                     8
+                );
+
+                await registry.connect(buyer1).registerMicrogrid(
+                    "Buyer Grid",
+                    22345679,
+                    88234568,
+                    1000
+                );
+
+                await registry.connect(buyer1).updateStatus(
+                    0,
+                    0,
+                    80
                 );
                 // Buyer approves Marketplace
                 await energyToken.connect(buyer1).approve(
@@ -971,6 +1010,19 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                     0,
                     200,
                     8
+                );
+
+                await registry.connect(buyer1).registerMicrogrid(
+                    "Buyer Grid",
+                    22345679,
+                    88234568,
+                    1000
+                );
+
+                await registry.connect(buyer1).updateStatus(
+                    0,
+                    0,
+                    80
                 );
                 // Buyer approves Marketplace
                 await energyToken.connect(buyer1).approve(
@@ -1137,6 +1189,19 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                     200,
                     8
                 );
+
+                await registry.connect(buyer1).registerMicrogrid(
+                    "Buyer Grid",
+                    22345679,
+                    88234568,
+                    1000
+                );
+
+                await registry.connect(buyer1).updateStatus(
+                    0,
+                    0,
+                    80
+                );
                 // Buyer approves Marketplace
                 await energyToken.connect(buyer1).approve(
                     marketplace.address,
@@ -1173,6 +1238,19 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                     200,
                     8
                 );
+
+                await registry.connect(buyer1).registerMicrogrid(
+                    "Buyer Grid",
+                    22345679,
+                    88234568,
+                    1000
+                );
+
+                await registry.connect(buyer1).updateStatus(
+                    0,
+                    0,
+                    80
+                );
                 // Buyer approves Marketplace
                 await energyToken.connect(buyer1).approve(
                     marketplace.address,
@@ -1208,6 +1286,19 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                     0,
                     200,
                     8
+                );
+
+                await registry.connect(buyer1).registerMicrogrid(
+                    "Buyer Grid",
+                    22345679,
+                    88234568,
+                    1000
+                );
+
+                await registry.connect(buyer1).updateStatus(
+                    0,
+                    0,
+                    80
                 );
                 // Buyer approves Marketplace
                 await energyToken.connect(buyer1).approve(
@@ -1328,6 +1419,56 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                 }
 
                 expect(reverted).to.equal(true);
+            });
+
+            it("Should transfer energy from seller microgrid to buyer microgrid", async function () {
+                // Register seller
+                await registry.connect(seller1).registerMicrogrid(
+                    "Seller Grid",
+                    22345678,
+                    88234567,
+                    1000
+                );
+                // Register buyer
+                await registry.connect(buyer1).registerMicrogrid(
+                    "Buyer Grid",
+                    22345679,
+                    88234568,
+                    1000
+                );
+                // Seller status
+                await registry.connect(seller1).updateStatus(
+                    500,
+                    200,
+                    80
+                );
+                // Buyer status
+                await registry.connect(buyer1).updateStatus(
+                    0,
+                    0,
+                    80
+                );
+                // Create offer
+                await marketplace.connect(seller1).createOffer(
+                    0,
+                    200,
+                    8
+                );
+                // Approve ETK
+                await energyToken.connect(buyer1).approve(
+                    marketplace.address,
+                    ethers.utils.parseUnits("10000", 18)
+                );
+                // Buy 180 kWh
+                await marketplace.connect(buyer1).buyEnergy(
+                    0,
+                    180
+                );
+                const seller = await registry.getMicrogrid(0);
+                const buyer = await registry.getMicrogrid(1);
+
+                expect(seller.energyGenerated.toNumber()).to.equal(320);
+                expect(buyer.energyGenerated.toNumber()).to.equal(180);
             });
         });
 
@@ -1464,7 +1605,7 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
             // Update
             await registry.connect(seller1).updateStatus(
                 900,
-                300,
+                400,
                 80
             );
 
@@ -1475,6 +1616,18 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                 8
             );
 
+            await registry.connect(buyer1).registerMicrogrid(
+                "Buyer Grid",
+                22345679,
+                88234568,
+                1000
+            );
+
+            await registry.connect(buyer1).updateStatus(
+                0,
+                0,
+                80
+            );
             // Approve
             await energyToken.connect(buyer1).approve(
                 marketplace.address,
@@ -1486,20 +1639,28 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
             // Buy
             await marketplace.connect(buyer1).buyEnergy(
                 0,
-                100
+                180
             );
 
             const sellerAfter = await energyToken.balanceOf(seller1.address);
             const offer = await marketplace.offers(0);
             const grid = await registry.getMicrogrid(0);
+            const sellerGrid = await registry.getMicrogrid(0);
+            const buyerGrid = await registry.getMicrogrid(1);
+
+            expect(sellerGrid.energyGenerated.toNumber()).to.equal(720);
+            expect(buyerGrid.energyGenerated.toNumber()).to.equal(180);
 
             expect(
                 sellerAfter.sub(sellerBefore).toString()
-            ).to.equal("800");
-            expect(offer.remainingEnergy.toNumber()).to.equal(100);
-            expect(offer.soldEnergy.toNumber()).to.equal(100);
+            ).to.equal("1440");
+            expect(offer.remainingEnergy.toNumber()).to.equal(20);
+            expect(offer.soldEnergy.toNumber()).to.equal(180);
             expect(offer.status).to.equal(1);
-            expect(grid.reservedEnergy.toNumber()).to.equal(100);
+            expect(grid.reservedEnergy.toNumber()).to.equal(20);
+            expect(
+                (await registry.getAvailableEnergy(0)).toNumber()
+            ).to.equal(300);
         });
 
         it("Should support multiple microgrids trading simultaneously", async function () {
@@ -1544,12 +1705,36 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                 8
             );
 
+            await registry.connect(buyer1).registerMicrogrid(
+                "Buyer Grid",
+                22345679,
+                88234568,
+                1000
+            );
+
+            await registry.connect(buyer1).updateStatus(
+                0,
+                0,
+                80
+            );
             // Buyers approve
             await energyToken.connect(buyer1).approve(
                 marketplace.address,
                 ethers.utils.parseUnits("10000",18)
             );
 
+            await registry.connect(buyer2).registerMicrogrid(
+                "Buyer Grid 2",
+                22345680,
+                88234569,
+                1000
+            );
+
+            await registry.connect(buyer2).updateStatus(
+                0,
+                0,
+                80
+            );
             await energyToken.connect(buyer2).approve(
                 marketplace.address,
                 ethers.utils.parseUnits("10000",18)

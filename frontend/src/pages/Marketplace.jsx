@@ -9,17 +9,19 @@ function Marketplace() {
     const [refresh, setRefresh] = useState(0);
 
     return (
-      <div className="bg-slate-900 p-5">
+      <div className="bg-slate-900 px-5">
         <Layout>
-          <h1 className="text-3xl font-bold mb-6">
-            Marketplace
-          </h1>
-          <CreateOffer
-            onSuccess={() => setRefresh(prev => prev + 1)}
-          />
-          <ActiveOffers
-            refresh={refresh}
-          />
+          <div className="mt-20 ml-64">
+            <h1 className="text-3xl font-bold mb-6">
+              Marketplace
+            </h1>
+            <CreateOffer
+              onSuccess={() => setRefresh(prev => prev + 1)}
+            />
+            <ActiveOffers
+              refresh={refresh}
+            />
+          </div>
         </Layout>
       </div>
     );

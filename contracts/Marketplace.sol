@@ -146,6 +146,12 @@ contract Marketplace {
         // release reserved energy
         registry.decreaseReservedEnergy(offers[_offerId].microgridId, _amt);
 
+        registry.transferEnergy(
+            offers[_offerId].microgridId,
+            msg.sender,
+            _amt
+        );
+
         // updated time
         offers[_offerId].updatedAt = block.timestamp;
 
@@ -191,11 +197,7 @@ contract Marketplace {
     }
 
     // Get a single offer
-    function getOffer(uint256 _offerId)
-        external
-        view
-        returns (Offer memory)
-    {
+    function getOffer(uint256 _offerId) external view returns (Offer memory){
         require(_offerId < nextOfferId, "Offer does not exist");
         return offers[_offerId];
     }

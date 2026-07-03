@@ -16,7 +16,7 @@ function ActiveOffers({ refresh }) {
                 const data = [];
                 for (let i = 0; i < count; i++) {
                     const offer = await marketplace.getOffer(i);
-                    if(offer.status.toString() !== "0") continue;
+                    if(offer.status.toString() !== "0" && offer.status.toString() !== "1") continue;
                     data.push(offer);
                 }
 
