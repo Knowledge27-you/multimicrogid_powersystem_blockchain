@@ -146,10 +146,30 @@ export function WalletProvider({ children }) {
 
     }, []);
 
+    /////////////////////////////////////////////
+    // Disconnect Wallet
+    ////////////////////////////////////////////
+    const switchWallet = async () => {
+        if (!window.ethereum) {
+            alert("Please install MetaMask");
+            return;
+        }
+        try {
+            // Ask MetaMask to show the account selection popup
+            await window.ethereum.request({
+                method: "wallet_requestPermissions",
+                params: [{ eth_accounts: {} }],
+            });
+            // Reconnect
+            await connectWallet();
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     return (
         <WalletContext.Provider
             value={{
-
                 account,
                 provider,
                 signer,
@@ -162,7 +182,7 @@ export function WalletProvider({ children }) {
                 marketplace,
 
                 connectWallet,
-
+                switchWallet,
             }}
         >
             {children}

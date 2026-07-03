@@ -41,8 +41,8 @@
       ]
     },
     "D:\\Studies\\code_with_me\\Blockchain project\\contracts\\MicrogridRegistry.sol": {
-      "lastModificationDate": 1783000562593,
-      "contentHash": "356f2e9563701affc6116ba7f802e034",
+      "lastModificationDate": 1783062720185,
+      "contentHash": "fb2abffa6e8594eebe576d2765a3dd7b",
       "sourceName": "contracts/MicrogridRegistry.sol",
       "solcConfig": {
         "version": "0.8.28",
@@ -79,8 +79,8 @@
       ]
     },
     "D:\\Studies\\code_with_me\\Blockchain project\\contracts\\Marketplace.sol": {
-      "lastModificationDate": 1782903950182,
-      "contentHash": "a3e63900fc5ce542f78b54234685b01d",
+      "lastModificationDate": 1783085996313,
+      "contentHash": "d4167256dbd1f6fc9a7c9b61527687db",
       "sourceName": "contracts/Marketplace.sol",
       "solcConfig": {
         "version": "0.8.28",

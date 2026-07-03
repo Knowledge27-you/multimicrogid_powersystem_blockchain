@@ -166,7 +166,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
             );
 
             await registry.connect(seller1).updateStatus(
-                0,      // microgrid id
                 800,    // generation
                 300,    // demand
                 75      // battery
@@ -188,7 +187,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
             );
 
             await registry.connect(seller1).updateStatus(
-                0,
                 800,
                 300,
                 75
@@ -209,7 +207,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
             );
 
             await registry.connect(seller1).updateStatus(
-                0,
                 800,
                 300,
                 75
@@ -230,7 +227,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
             );
 
             await registry.connect(seller1).updateStatus(
-                0,
                 800,
                 300,
                 75
@@ -259,7 +255,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
 
             // Deactivate
             await registry.connect(seller1).setMicrogridStatus(
-                0,
                 false
             );
 
@@ -278,7 +273,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
 
             try {
                 await registry.connect(buyer1).updateStatus(
-                    0,
                     800,
                     300,
                     75
@@ -287,7 +281,7 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
 
                 reverted = true;
                 expect(error.message).to.include(
-                    "Not the owner of this microgrid"
+                    "Microgrid not registered"
                 );
             }
 
@@ -306,7 +300,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
 
             try {
                 await registry.connect(seller1).updateStatus(
-                    0,
                     800,
                     300,
                     120
@@ -334,7 +327,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
 
             try {
                 await registry.connect(seller1).updateStatus(
-                    0,
                     1500,
                     300,
                     80
@@ -362,7 +354,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
 
             try {
                 await registry.connect(seller1).updateStatus(
-                    0,
                     800,
                     1500,
                     80
@@ -407,7 +398,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                 );
 
                 await registry.connect(seller1).updateStatus(
-                    0,
                     900,
                     100,
                     90
@@ -435,7 +425,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                 );
 
                 await registry.connect(seller1).updateStatus(
-                    0,
                     700,
                     300,
                     60
@@ -463,7 +452,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                 );
 
                 await registry.connect(seller1).updateStatus(
-                    0,
                     500,
                     400,
                     50
@@ -521,7 +509,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                 );
 
                 await registry.connect(seller1).updateStatus(
-                    0,
                     900,
                     300,
                     80
@@ -562,7 +549,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                 );
 
                 await registry.connect(seller1).updateStatus(
-                    0,
                     900,
                     300,
                     80
@@ -599,7 +585,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                 );
 
                 await registry.connect(seller1).updateStatus(
-                    0,
                     900,
                     300,
                     80
@@ -628,7 +613,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                 );
 
                 await registry.connect(seller1).updateStatus(
-                    0,
                     900,
                     300,
                     80
@@ -660,7 +644,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                 );
 
                 await registry.connect(seller1).updateStatus(
-                    0,
                     900,
                     300,
                     80
@@ -690,7 +673,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                 );
 
                 await registry.connect(seller1).setMicrogridStatus(
-                    0,
                     false
                 );
                 let reverted = false;
@@ -718,7 +700,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                 );
 
                 await registry.connect(seller1).updateStatus(
-                    0,
                     900,
                     300,
                     80
@@ -745,7 +726,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                 );
 
                 await registry.connect(seller1).updateStatus(
-                    0,
                     900,
                     300,
                     80
@@ -773,7 +753,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                 );
 
                 await registry.connect(seller1).updateStatus(
-                    0,
                     900,
                     300,
                     80
@@ -799,7 +778,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                 );
 
                 await registry.connect(seller1).updateStatus(
-                    0,
                     900,
                     300,
                     80
@@ -830,7 +808,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                     1000
                 );
                 await registry.connect(seller1).updateStatus(
-                    0,
                     900,
                     300,
                     80
@@ -864,7 +841,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                 );
                 // Seller status
                 await registry.connect(seller1).updateStatus(
-                    0,
                     900,
                     300,
                     80
@@ -900,7 +876,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                 );
                 // Seller status
                 await registry.connect(seller1).updateStatus(
-                    0,
                     900,
                     300,
                     80
@@ -938,7 +913,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                 );
                 // Seller status
                 await registry.connect(seller1).updateStatus(
-                    0,
                     900,
                     300,
                     80
@@ -988,7 +962,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                 );
                 // Seller status
                 await registry.connect(seller1).updateStatus(
-                    0,
                     900,
                     300,
                     80
@@ -1033,7 +1006,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                 );
                 // Seller status
                 await registry.connect(seller1).updateStatus(
-                    0,
                     900,
                     300,
                     80
@@ -1072,7 +1044,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                 );
                 // Seller status
                 await registry.connect(seller1).updateStatus(
-                    0,
                     900,
                     300,
                     80
@@ -1115,7 +1086,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                 );
                 // Seller status
                 await registry.connect(seller1).updateStatus(
-                    0,
                     900,
                     300,
                     80
@@ -1157,7 +1127,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                 );
                 // Seller status
                 await registry.connect(seller1).updateStatus(
-                    0,
                     900,
                     300,
                     80
@@ -1194,7 +1163,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                 );
                 // Seller status
                 await registry.connect(seller1).updateStatus(
-                    0,
                     900,
                     300,
                     80
@@ -1231,7 +1199,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                 );
                 // Seller status
                 await registry.connect(seller1).updateStatus(
-                    0,
                     900,
                     300,
                     80
@@ -1282,7 +1249,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                 );
                 // Seller status
                 await registry.connect(seller1).updateStatus(
-                    0,
                     900,
                     300,
                     80
@@ -1328,7 +1294,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                     1000
                 );
                 await registry.connect(seller1).updateStatus(
-                    0,
                     900,
                     300,
                     80
@@ -1365,6 +1330,121 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
                 expect(reverted).to.equal(true);
             });
         });
+
+        describe("Read Functions", () => {
+            it("Should return an offer by its ID", async function () {
+                await registry.connect(seller1).registerMicrogrid(
+                    "Solar Grid",
+                    22345678,
+                    88234567,
+                    1000
+                );
+
+                await registry.connect(seller1).updateStatus(
+                    900,
+                    300,
+                    80
+                );
+
+                await marketplace.connect(seller1).createOffer(
+                    0,
+                    200,
+                    8
+                );
+
+                const offer = await marketplace.getOffer(0);
+
+                expect(offer.offerId.toNumber()).to.equal(0);
+                expect(offer.seller).to.equal(seller1.address);
+                expect(offer.totalEnergy.toNumber()).to.equal(200);
+                expect(offer.sellingPrice.toNumber()).to.equal(8);
+
+            });
+
+            it("Should return total number of offers", async function () {
+                await registry.connect(seller1).registerMicrogrid(
+                    "Solar Grid",
+                    22345678,
+                    88234567,
+                    1000
+                );
+
+                await registry.connect(seller1).updateStatus(
+                    900,
+                    300,
+                    80
+                );
+
+                await marketplace.connect(seller1).createOffer(
+                    0,
+                    200,
+                    8
+                );
+
+                expect(
+                    (await marketplace.getOfferCount()).toNumber()
+                ).to.equal(1);
+
+            });
+
+            it("Should return all offers of a microgrid", async function () {
+                await registry.connect(seller1).registerMicrogrid(
+                    "Solar Grid",
+                    22345678,
+                    88234567,
+                    1000
+                );
+
+                await registry.connect(seller1).updateStatus(
+                    900,
+                    300,
+                    80
+                );
+
+                await marketplace.connect(seller1).createOffer(
+                    0,
+                    200,
+                    8
+                );
+
+                const offers =
+                    await marketplace.getMicrogridOffers(0);
+
+                expect(offers.length).to.equal(1);
+                expect(offers[0].toNumber()).to.equal(0);
+
+            });
+
+            it("Should return all offers created by a seller", async function () {
+                await registry.connect(seller1).registerMicrogrid(
+                    "Solar Grid",
+                    22345678,
+                    88234567,
+                    1000
+                );
+
+                await registry.connect(seller1).updateStatus(
+                    900,
+                    300,
+                    80
+                );
+
+                await marketplace.connect(seller1).createOffer(
+                    0,
+                    200,
+                    8
+                );
+
+                const offers =
+                    await marketplace.getSellerOffers(
+                        seller1.address
+                    );
+
+                expect(offers.length).to.equal(1);
+                expect(offers[0].toNumber()).to.equal(0);
+
+            });
+        });
     });
 
     // /////////////////////////////////////////////////////////
@@ -1383,7 +1463,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
 
             // Update
             await registry.connect(seller1).updateStatus(
-                0,
                 900,
                 300,
                 80
@@ -1433,7 +1512,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
             );
 
             await registry.connect(seller1).updateStatus(
-                0,
                 900,
                 300,
                 80
@@ -1448,7 +1526,6 @@ describe("Blockchain-based Multi-Microgrid Energy Trading", () => {
             );
 
             await registry.connect(seller2).updateStatus(
-                1,
                 800,
                 200,
                 75

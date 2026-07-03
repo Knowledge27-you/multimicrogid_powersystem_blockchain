@@ -1,8 +1,8 @@
 const { ethers } = require("hardhat");
 
 async function main() {
-    const tokenAddress = "0xBbc5079A97312a982E99A9C818779A5ddB78CE58";
-    const recipient = "0x828dfD39Ea825a432D5a841C36dab06c55c5049B";
+    const tokenAddress = "0xFC0c18234210241b34cB8Bf8e0Bb9F9F23263424";
+    const recipient = "0x541D16f0246Be1f926Ec162A5C7E98dF0089d43f";
     const amount = "10000";
 
     const EnergyToken = await ethers.getContractFactory("EnergyToken");
@@ -20,7 +20,7 @@ async function main() {
         `Minted ${amount} ETK to ${recipient}`
     );
 
-}
+} 
 
 main()
 .then(() => process.exit(0))
