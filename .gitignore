@@ -1,8 +1,23 @@
-.env
+# node module & coverage
 node_modules/
 coverage/
 coverage.json
+
+# artifacts and caches and data
 artifacts/
 cache/
 data.txt
 
+# Python cache
+__pycache__/
+*.py[cod]
+
+# VS Code
+.vscode/
+
+# Python virtual environment
+venv/
+.env
+
+# macOS
+.DS_Store

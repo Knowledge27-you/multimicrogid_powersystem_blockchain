@@ -32,6 +32,9 @@ class Microgrid:
     max_capacity: int = MAX_CAPACITY
     reserved_energy: int = 0
 
+    # Maximum price the consumer is willing to pay
+    max_price: int = 12
+
 @dataclass
 class Trade:
     prosumer: int
@@ -59,7 +62,8 @@ def generate_microgrids(count):
                 id=i,
                 generated_energy=generation,
                 demanded_energy=demand,
-                battery_level=battery
+                battery_level=battery,
+                max_price=r.randint(7, 12)
 
             )
 
@@ -67,11 +71,15 @@ def generate_microgrids(count):
 
     return grids
 
-def calculate_price(generated_energy, demanded_energy, battery_level, max_capacity, reserved_energy):
+# ==========================================================
+# Adaptive Pricing Strategy
+# ==========================================================
+
+def adaptive_price(generated_energy, demanded_energy, battery_level, max_capacity, reserved_energy):
 
     price = BASE_PRICE
 
-    available_energy = generated_energy + battery_level - reserved_energy
+    available_energy = generated_energy - demanded_energy - reserved_energy
     availability_ratio = (available_energy * 100) / max_capacity
 
     if availability_ratio >= 70:
@@ -110,6 +118,27 @@ def calculate_price(generated_energy, demanded_energy, battery_level, max_capaci
 
     return max(price, 1)
 
+# ==========================================================
+# Fixed Pricing Strategy
+# ==========================================================
+
+def fixed_price(generated_energy, demanded_energy, battery_level, max_capacity, reserved_energy):
+    return 10
+
+# ==========================================================
+# Demand-Based Pricing Strategy
+# ==========================================================
+
+def demand_based_price(generated_energy, demanded_energy, battery_level, max_capacity, reserved_energy):
+
+    if demanded_energy >= 700:
+        return 12
+
+    elif demanded_energy >= 400:
+        return 10
+
+    return 8
+
 def export_microgrids(grids):
     rows = []
 
@@ -117,7 +146,7 @@ def export_microgrids(grids):
         available = g.generated_energy - g.demanded_energy
         role = "Prosumer" if available > 0 else "Consumer"
 
-        price = calculate_price(
+        price = adaptive_price(
             g.generated_energy,
             g.demanded_energy,
             g.battery_level,
@@ -130,15 +159,17 @@ def export_microgrids(grids):
             "Generation": g.generated_energy,
             "Demand": g.demanded_energy,
             "Battery": g.battery_level,
+            "Max Price": g.max_price,
             "Available": available,
             "Price": price,
             "Role": role
         })
+
     df = pd.DataFrame(rows)
     df.to_csv("microgrids.csv", index=False)
     return df
 
-def execute_trades(grids):
+def execute_trades(grids, pricing_function=adaptive_price):
     prosumers = []
     consumers = []
 
@@ -172,17 +203,21 @@ def execute_trades(grids):
             if c["required"] == 0:
                 continue
 
-            traded = min(
-                p["available"],
-                c["required"]
-            )
-
-            price = calculate_price(
+            price = pricing_function(
                 p["grid"].generated_energy,
                 p["grid"].demanded_energy,
                 p["grid"].battery_level,
                 p["grid"].max_capacity,
                 p["grid"].reserved_energy
+            )
+
+            # Consumer rejects expensive offers
+            if price > c["grid"].max_price:
+                continue
+
+            traded = min(
+                p["available"],
+                c["required"]
             )
 
             trades.append(
@@ -231,7 +266,7 @@ def main():
     grids = generate_microgrids(NUM_MICROGRIDS)
 
     microgrid_df = export_microgrids(grids)
-    trades = execute_trades(grids)
+    trades = execute_trades(grids, adaptive_price)
     trades_df = export_trades(trades)
 
     print("Microgrid DataFrame:")
