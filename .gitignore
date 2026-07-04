@@ -4,3 +4,5 @@ coverage/
 coverage.json
 artifacts/
 cache/
+data.txt
+
