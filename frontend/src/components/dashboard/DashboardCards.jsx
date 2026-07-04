@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useWallet } from "../../hooks/useWallet";
-import StatCard from "../common/StatCard";
+import StatCard from "../common/Statcard";
 
 function DashboardCards({ refresh }) {
 
