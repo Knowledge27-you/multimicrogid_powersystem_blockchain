@@ -41,8 +41,8 @@
       ]
     },
     "D:\\Studies\\code_with_me\\Blockchain project\\contracts\\MicrogridRegistry.sol": {
-      "lastModificationDate": 1783102229872,
-      "contentHash": "b41dfdd4e680bd3d51f488a0bf27b4f6",
+      "lastModificationDate": 1783174167829,
+      "contentHash": "040cd48bb28f0c7e8fd5cd6b9069fd52",
       "sourceName": "contracts/MicrogridRegistry.sol",
       "solcConfig": {
         "version": "0.8.28",

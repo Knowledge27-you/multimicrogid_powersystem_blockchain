@@ -6,6 +6,7 @@ coverage.json
 # artifacts and caches and data
 artifacts/
 cache/
+data/
 data.txt
 
 # Python cache
