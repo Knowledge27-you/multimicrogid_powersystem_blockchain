@@ -28,6 +28,7 @@ contract MicrogridRegistry is Ownable {
     uint256 public nextId;
     mapping(uint256 => Microgrid) public microgrids;
     mapping(address => bool) public isRegistered;
+    mapping(address => uint256) public ownerToMicrogridId;
 
     address public marketplaceAddress;
 
@@ -82,16 +83,33 @@ contract MicrogridRegistry is Ownable {
             lastUpdated: block.timestamp
         });
 
+        ownerToMicrogridId[msg.sender] = id;
+
         isRegistered[msg.sender] = true;
         emit MicrogridRegistered(id, msg.sender, _name, _latitude, _longitude);
     }
 
-    function updateStatus(uint256 _id, uint256 _energyGenerated, uint256 _energyDemand, uint256 _batteryLevel) public onlyMicrogridOwner(_id) {
+    function getMyMicrogrid() external view returns (Microgrid memory) {
+        require(isRegistered[msg.sender], "Microgrid not registered");
+        uint256 id = ownerToMicrogridId[msg.sender];
+        return microgrids[id];
+    }
+
+    function updateStatus(uint256 _energyGenerated, uint256 _energyDemand, uint256 _batteryLevel) public {
+        uint256 _id = ownerToMicrogridId[msg.sender];
+
+        require(isRegistered[msg.sender], "Microgrid not registered");
         require(_id < nextId, "Microgrid does not exist");
         require(microgrids[_id].isActive, "Microgrid is not active");
         require(_batteryLevel <= 100, "Battery level must be between 0 and 100");
-        require(_energyGenerated <= microgrids[_id].maxCapacity, "Energy generated exceeds max capacity");
-        require(_energyDemand <= microgrids[_id].maxCapacity, "Energy demand exceeds max capacity");
+        require(
+            _energyGenerated <= microgrids[_id].maxCapacity,
+            "Energy generated exceeds max capacity"
+        );
+        require(
+            _energyDemand <= microgrids[_id].maxCapacity,
+            "Energy demand exceeds max capacity"
+        );
 
         microgrids[_id].energyGenerated = _energyGenerated;
         microgrids[_id].energyDemand = _energyDemand;
@@ -99,7 +117,13 @@ contract MicrogridRegistry is Ownable {
 
         microgrids[_id].lastUpdated = block.timestamp;
 
-        emit StatusUpdated(_id, _energyGenerated, _energyDemand, _batteryLevel, block.timestamp);
+        emit StatusUpdated(
+            _id,
+            _energyGenerated,
+            _energyDemand,
+            _batteryLevel,
+            block.timestamp
+        );
     }
 
     function getSurplus(uint256 _id) public view returns(int256){
@@ -108,11 +132,12 @@ contract MicrogridRegistry is Ownable {
         return int256(microgrids[_id].energyGenerated) - int256(microgrids[_id].energyDemand) - int256(microgrids[_id].reservedEnergy);
     }
 
-    function hasSurplus(uint256 _id) public view returns(bool){
-        require(_id < nextId, "Microgrid does not exist");
-        require(microgrids[_id].isActive, "Microgrid is not active");
-        return int256(microgrids[_id].energyGenerated) - int256(microgrids[_id].energyDemand) - int256(microgrids[_id].reservedEnergy) > 0;
-    }
+    // doesn't get used anywhere, but can be useful for future features
+    // function hasSurplus(uint256 _id) public view returns(bool){
+    //     require(_id < nextId, "Microgrid does not exist");
+    //     require(microgrids[_id].isActive, "Microgrid is not active");
+    //     return int256(microgrids[_id].energyGenerated) - int256(microgrids[_id].energyDemand) - int256(microgrids[_id].reservedEnergy) > 0;
+    // }
 
     function getAvailableEnergy(uint256 _id) external view returns(uint256){
         require(_id < nextId, "Microgrid does not exist");
@@ -126,8 +151,9 @@ contract MicrogridRegistry is Ownable {
         return microgrids[_id];
     }
 
-    function setMicrogridStatus(uint256 _id, bool _status) public onlyMicrogridOwner(_id) {
-        require(_id < nextId, "Microgrid does not exist");
+    function setMicrogridStatus(bool _status) public {
+        require(isRegistered[msg.sender], "Microgrid not registered");
+        uint256 _id = ownerToMicrogridId[msg.sender];
         microgrids[_id].isActive = _status;
     }
 
@@ -145,7 +171,7 @@ contract MicrogridRegistry is Ownable {
 
         emit ReservedEnergyUpdated(_id, microgrids[_id].reservedEnergy);
     }
-    
+
     function getPricingData(uint256 _id) external view returns(uint256 generation, uint256 demand, uint256 batteryLevel, uint256 maxCapacity, uint256 reservedEnergy){
         require(_id < nextId, "Microgrid doesn't exist");
 
@@ -158,5 +184,32 @@ contract MicrogridRegistry is Ownable {
             grid.maxCapacity, 
             grid.reservedEnergy
         );
+    }
+
+    function transferEnergy(uint256 _sellerId, address _buyer, uint256 _amount) external onlyMarketplace {
+        require(_sellerId < nextId, "Seller microgrid does not exist");
+        require(isRegistered[_buyer], "Buyer is not registered");
+
+        uint256 buyerId = ownerToMicrogridId[_buyer];
+
+        require(
+            microgrids[_sellerId].energyGenerated >= _amount,
+            "Seller doesn't have enough energy"
+        );
+
+        require(
+            microgrids[buyerId].energyGenerated + _amount <=
+            microgrids[buyerId].maxCapacity,
+            "Buyer capacity exceeded"
+        );
+
+        // Seller loses energy
+        microgrids[_sellerId].energyGenerated -= _amount;
+
+        // Buyer gains energy
+        microgrids[buyerId].energyGenerated += _amount;
+
+        microgrids[_sellerId].lastUpdated = block.timestamp;
+        microgrids[buyerId].lastUpdated = block.timestamp;
     }
 }

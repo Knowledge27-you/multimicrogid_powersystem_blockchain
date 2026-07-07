@@ -33,4 +33,10 @@ interface IMicrogridRegistry {
         uint256 maxCapacity,
         uint256 reservedEnergy
     );
+
+    function transferEnergy(
+        uint256 sellerId,
+        address buyer,
+        uint256 amount
+    ) external;
 }

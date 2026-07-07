@@ -146,6 +146,12 @@ contract Marketplace {
         // release reserved energy
         registry.decreaseReservedEnergy(offers[_offerId].microgridId, _amt);
 
+        registry.transferEnergy(
+            offers[_offerId].microgridId,
+            msg.sender,
+            _amt
+        );
+
         // updated time
         offers[_offerId].updatedAt = block.timestamp;
 
@@ -188,5 +194,38 @@ contract Marketplace {
         activeOfferCount[offers[_offerId].microgridId]--;
 
         emit OfferStatusUpdated(_offerId,status);
+    }
+
+    // Get a single offer
+    function getOffer(uint256 _offerId) external view returns (Offer memory){
+        require(_offerId < nextOfferId, "Offer does not exist");
+        return offers[_offerId];
+    }
+
+    // Get total number of offers
+    function getOfferCount()
+        external
+        view
+        returns (uint256)
+    {
+        return nextOfferId;
+    }
+
+    // Get all offer IDs for a microgrid
+    function getMicrogridOffers(uint256 _microgridId)
+        external
+        view
+        returns (uint256[] memory)
+    {
+        return microgridOffers[_microgridId];
+    }
+
+    // Get all offer IDs created by a seller
+    function getSellerOffers(address _seller)
+        external
+        view
+        returns (uint256[] memory)
+    {
+        return sellerOffers[_seller];
     }
 }

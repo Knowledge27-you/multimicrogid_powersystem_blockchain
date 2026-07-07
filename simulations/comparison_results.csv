@@ -1,0 +1,4 @@
+Strategy,Trades,Energy Traded,Average Price,Total ETK,Prosumer Utilization,Consumer Satisfaction,Market Efficiency
+Fixed Pricing,17,2760,10.0,27600,26.97,52.27,52.27
+Demand Pricing,25,3645,8.64,31498,35.62,69.03,69.03
+Adaptive Pricing,34,5280,9.02,47610,51.6,100.0,100.0
